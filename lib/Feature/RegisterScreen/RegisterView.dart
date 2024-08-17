@@ -42,6 +42,7 @@ class _RegisterViewState extends State<RegisterView> {
             fit: BoxFit.cover,
           )),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(

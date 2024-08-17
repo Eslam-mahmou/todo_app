@@ -13,7 +13,7 @@ class ConfigLoading {
       ..maskType = EasyLoadingMaskType.black
       ..textColor=AppColors.wightColor
       ..indicatorColor = AppColors.primaryColor
-      ..userInteractions = true
+      ..userInteractions = false
       ..dismissOnTap = false
       ..backgroundColor=AppColors.wightColor;
   }

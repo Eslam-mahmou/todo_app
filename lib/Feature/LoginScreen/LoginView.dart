@@ -39,6 +39,7 @@ class _LoginViewState extends State<LoginView> {
             fit: BoxFit.cover,
           )),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
