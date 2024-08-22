@@ -33,6 +33,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
               fit: BoxFit.cover,
             )),
         child: Scaffold(
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             title: Text(
