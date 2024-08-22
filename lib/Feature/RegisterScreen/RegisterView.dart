@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Core/Utils/AppFirebase.dart';
 import 'package:todo_app/Core/Services/ValidateData.dart';
+import 'package:todo_app/Feature/LoginScreen/LoginView.dart';
 
 import '../../Core/Utils/AppAssets.dart';
 import '../../Core/Utils/AppColors.dart';
 import '../../Core/Widget/CustomTextFormLoginField.dart';
 import '../../Core/Widget/CustomCardLogin.dart';
-import '../layoutView.dart';
+
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -42,6 +43,7 @@ class _RegisterViewState extends State<RegisterView> {
             fit: BoxFit.cover,
           )),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
@@ -124,8 +126,9 @@ class _RegisterViewState extends State<RegisterView> {
                   CustomLoginCard(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        AppFirebase.signUp(validatorModels.emailController.text,
+                        AppFirebase().signUp(validatorModels.emailController.text,
                             validatorModels.passwordController.text, context);
+                        Navigator.of(context).pushNamed(LoginView.routeName);
                       }
                     },
                     text: "Register",

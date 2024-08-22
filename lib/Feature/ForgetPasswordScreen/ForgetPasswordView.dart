@@ -25,32 +25,33 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    return Container(
-        decoration: const BoxDecoration(
-            color: AppColors.backgroundColor,
-            image: DecorationImage(
-              image: AssetImage(AppAssets.backgroundImage),
-              fit: BoxFit.cover,
-            )),
-        child: Scaffold(
-          appBar: AppBar(
+    return Form(
+      key: formKey,
+      child: Container(
+          decoration: const BoxDecoration(
+              color: AppColors.backgroundColor,
+              image: DecorationImage(
+                image: AssetImage(AppAssets.backgroundImage),
+                fit: BoxFit.cover,
+              )),
+          child: Scaffold(
             backgroundColor: Colors.transparent,
-            title: Text(
-              "Forget Password",
-              style: theme.textTheme.titleLarge,
-            ),
-            centerTitle: true,
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: width * .05,
-                right: width * .05,
-                top: height * .3,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              title: Text(
+                "Forget Password",
+                style: theme.textTheme.titleLarge,
               ),
-              child: Form(
+              centerTitle: true,
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: width * .05,
+                  right: width * .05,
+                  top: height * .3,
+                ),
                 child: Column(
-                  key: formKey,
                   children: [
                     Text(
                       'You can reset your password here.',
@@ -97,7 +98,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 ),
               ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }

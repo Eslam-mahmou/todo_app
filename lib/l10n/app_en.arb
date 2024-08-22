@@ -1,0 +1,23 @@
+{
+"tasks_list":"Tasks",
+"setting":"Settings",
+"add_new_task":"Add new task",
+"enter_task_title" :"Enter your task title",
+"enter_task_details":"Enter your task details",
+"select_time":"Select time",
+"save":"Save",
+"language":"Language",
+"mode":"Mode",
+"english":"English",
+"arabic":"Arabic",
+"light" :"Light",
+"dark" :"Dark",
+"to_do_list":"To Do List",
+"please_enter_your_task_title":"Please enter your task title",
+"please_enter_your_task_details":"Please enter your task details",
+"delete":"Delete",
+"done":"Done!",
+"edit_task":"Edit Task",
+"save_changes":"Save Changes",
+"logout":"Log out"
+}

@@ -21,8 +21,8 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController(text: "Eslam@route.com");
-  final passwordController = TextEditingController(text: "Eslam@611");
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool obscureText = false;
 
   @override
@@ -39,6 +39,7 @@ class _LoginViewState extends State<LoginView> {
             fit: BoxFit.cover,
           )),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(

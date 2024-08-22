@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:todo_app/Core/Services/ExtractDate.dart';
 import 'package:todo_app/Core/Services/showSnakBar.dart';
 
 import '../../Feature/layoutView.dart';
+import '../../Models/TaskModel.dart';
 
 class AppFirebase {
-  static Future<void> signUp(
+  String? id;
+
+  Future<void> signUp(
       String email, String password, BuildContext context) async {
     try {
       EasyLoading.show();
@@ -15,37 +20,32 @@ class AppFirebase {
         email: email,
         password: password,
       );
-      var id = credential.user?.uid ?? '';
+      id = credential.user?.uid ?? "";
       EasyLoading.dismiss();
-      ShowSnackBar.showBar(context, "Registration successful!");
-      Navigator.pushReplacementNamed(
-          context, HomeView.routeName);
+         SnackBarService.showSuccessMessage("Registration successful!");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        ShowSnackBar.showBar(context, "No user found for that email.");
+        SnackBarService.showErrorMessage("No user found for that email.");
       } else if (e.code == 'wrong-password') {
-        ShowSnackBar.showBar(context, "Wrong password provided for that user.");
+        SnackBarService.showErrorMessage( "Wrong password provided for that user.");
       } else if (e.code == 'invalid-email') {
-        ShowSnackBar.showBar(context, "The email address is not valid.");
+        SnackBarService.showErrorMessage( "The email address is not valid.");
       } else if (e.code == 'user-disabled') {
-        ShowSnackBar.showBar(context,
-            "The user corresponding to the given email has been disabled.");
+        SnackBarService.showErrorMessage(
+        "The user corresponding to the given email has been disabled.");
       } else if (e.code == 'too-many-requests') {
-        ShowSnackBar.showBar(
-            context, "Too many attempts to sign in as this user.");
+        SnackBarService.showErrorMessage(  "Too many attempts to sign in as this user.");
       } else if (e.code == "The supplied auth credential is incorrect") {
-        ShowSnackBar.showBar(
-            context, "The supplied auth credential is incorrect.");
+        SnackBarService.showErrorMessage(  "The supplied auth credential is incorrect.");
       } else if (e.code == "network-request-failed" ||
           e.code == "network-error") {
-        ShowSnackBar.showBar(context,
-            "network connection error. Please check your internet connection.");
-      }
-      else{
-        ShowSnackBar.showBar(context, "$e");
+        SnackBarService.showErrorMessage(
+        "network connection error. Please check your internet connection.");
+      } else {
+        SnackBarService.showErrorMessage(e.toString());
       }
     } catch (e) {
-      ShowSnackBar.showBar(context, e.toString());
+      SnackBarService.showErrorMessage(  e.toString());
     }
     EasyLoading.dismiss();
   }
@@ -57,52 +57,104 @@ class AppFirebase {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       EasyLoading.dismiss();
-      ShowSnackBar.showBar(context, "Login successful!");
-      Navigator.pushReplacementNamed(
-          context, HomeView.routeName);
+      SnackBarService.showSuccessMessage("Sign in successful!");
+      Navigator.pushReplacementNamed(context, HomeView.routeName);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        ShowSnackBar.showBar(context, "No user found for that email.");
+        SnackBarService.showErrorMessage("No user found for that email.");
       } else if (e.code == 'wrong-password') {
-        ShowSnackBar.showBar(context, "Wrong password provided for that user.");
+        SnackBarService.showErrorMessage( "Wrong password provided for that user.");
       } else if (e.code == 'invalid-credential') {
-        ShowSnackBar.showBar(context, "Email or password is not valid.");
+        SnackBarService.showErrorMessage( "Email or password is not valid.");
       } else if (e.code == 'user-disabled') {
-        ShowSnackBar.showBar(context,
+        SnackBarService.showErrorMessage(
             "The user corresponding to the given email has been disabled.");
       } else if (e.code == 'too-many-requests') {
-        ShowSnackBar.showBar(
-            context, "Too many attempts to sign in as this user.");
+        SnackBarService.showErrorMessage(
+             "Too many attempts to sign in as this user.");
       } else if (e.code == "Wrong password provided for that user.") {
-        ShowSnackBar.showBar(
-            context, "The supplied auth credential is incorrect.");
+        SnackBarService.showErrorMessage(
+             "The supplied auth credential is incorrect.");
       } else if (e.code == "network-request-failed" ||
           e.code == "network-error") {
-        ShowSnackBar.showBar(context,
+       SnackBarService.showErrorMessage(
             "network connection error. Please check your internet connection.");
-      }
-      else{
-        ShowSnackBar.showBar(context, "$e");
+      } else {
+        SnackBarService.showErrorMessage(e.toString());
       }
     } catch (e) {
-      ShowSnackBar.showBar(context, e.toString());
+      SnackBarService.showErrorMessage(e.toString());
     }
     EasyLoading.dismiss();
   }
+
   static Future<void> resetPassword(String email, BuildContext context) async {
-  try {
-    EasyLoading.show();
-    final credential=  await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: email);
+    try {
+      EasyLoading.show();
+      final credential =
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      EasyLoading.dismiss();
+     SnackBarService.showSuccessMessage("Password reset email sent.");
+    } on Exception catch (e) {
+      SnackBarService.showErrorMessage(  e.toString());
+      print(e.toString());
+    } catch (e) {
+      SnackBarService.showErrorMessage( e.toString());
+      print(e.toString());
+    }
     EasyLoading.dismiss();
-    ShowSnackBar.showBar(context, "Password reset email sent.");
-  } on Exception catch (e) {
-    ShowSnackBar.showBar(context, e.toString());
-    print(e.toString());
-  }catch (e) {
-    ShowSnackBar.showBar(context, e.toString());
-    print(e.toString());
   }
-  EasyLoading.dismiss();
+
+  static CollectionReference<TaskModel> getCollectionRef() {
+    return FirebaseFirestore.instance
+        .collection(TaskModel.collectionName)
+        .withConverter<TaskModel>(
+          fromFirestore: (snapshot, _) =>
+              TaskModel.fromFireStoreData(snapshot.data()!),
+          toFirestore: (taskModel, _) => taskModel.toFireStoreData(),
+        );
   }
+
+  static Future<void> addTaskToFireStore(TaskModel taskModel) async {
+    var collectionRef = getCollectionRef();
+    var docRef = collectionRef.doc();
+    taskModel.id = docRef.id;
+    return docRef.set(taskModel);
+  }
+
+  static Stream<QuerySnapshot<TaskModel>> getTasksFromFireStore(
+      DateTime selectedDate) {
+    var collectionRef = getCollectionRef().where(
+      "dateTime",
+      isEqualTo: extractDate(selectedDate).millisecondsSinceEpoch,
+    );
+    return collectionRef.snapshots();
+  }
+
+static deleteTask(String id){
+    var collectionRef = getCollectionRef();
+    return collectionRef.doc(id).delete();
+}
+static saveTask(String id){
+    var collectionRef = getCollectionRef();
+    return collectionRef.doc(id).update(
+      {
+        "isDone":true
+      }
+    );
+}
+static Future<void> updateTask(TaskModel taskModel)async{
+    var collectionRef =await getCollectionRef();
+   return collectionRef.doc(taskModel.id).update(
+       taskModel.toFireStoreData()
+    );
+}
+static Future<void> signOut()async{
+  try {
+    await FirebaseAuth.instance.signOut();
+    SnackBarService.showSuccessMessage("User signed out.");
+  } catch (e) {
+   SnackBarService.showErrorMessage(e.toString());
+  }
+}
 }

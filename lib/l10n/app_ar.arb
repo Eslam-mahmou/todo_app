@@ -1,0 +1,23 @@
+{
+"tasks_list":"المهام",
+"setting":"الاعدادات",
+"add_new_task":"إضافة مهمه جديدة",
+"enter_task_title" :"عنوان المهمة",
+"enter_task_details":"تفاصيل المهمة",
+"select_time":"حدد الوقت",
+"save":"حفظ",
+"language":"اللغة",
+"mode":"النمط",
+"english":"الانجليزية",
+"arabic":"العربية",
+"light" :"نهاري",
+"dark" :"ليلي",
+"to_do_list":"قائمة المهام",
+"please_enter_your_task_title":"من فضلك ادخل عنوان المهمة",
+"please_enter_your_task_details":"من فضلك اضف تفاصيل المهمة",
+"delete":"حذف",
+"done":"تم!",
+"edit_task":"تعديل المهمة",
+"save_changes":"حفظ التغيرات",
+"logout":"تسجيل الخروج"
+}

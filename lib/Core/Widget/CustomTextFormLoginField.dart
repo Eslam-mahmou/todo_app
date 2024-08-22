@@ -10,7 +10,8 @@ class CustomTextFormLoginField extends StatelessWidget {
       this.controller,
       this.obscureText = false,
       this.keyboardType = TextInputType.text,
-      this.suffixIcon});
+      this.suffixIcon,
+    });
 
   final String label;
   String? Function(String?)? validator;
@@ -18,6 +19,7 @@ class CustomTextFormLoginField extends StatelessWidget {
   bool obscureText;
   TextInputType? keyboardType;
   Widget? suffixIcon;
+
 
   @override
   Widget build(BuildContext context) {

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import '../Utils/AppColors.dart';
 
 class CustomLoginCard extends StatelessWidget {
-  CustomLoginCard({super.key, required this.text, required this.onPressed});
+  CustomLoginCard(
+      {super.key, required this.text, this.onPressed, this.icon, this.color,this.style});
 
   final String text;
-  void Function() onPressed;
-
+  void Function()? onPressed;
+  Icon? icon;
+  Color? color;
+  TextStyle? style;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -15,7 +18,7 @@ class CustomLoginCard extends StatelessWidget {
     var theme = Theme.of(context);
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryColor,
+            backgroundColor:color?? AppColors.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -26,14 +29,15 @@ class CustomLoginCard extends StatelessWidget {
           children: [
             Text(
               text,
-              style: theme.textTheme.bodyMedium?.copyWith(
+              style:style?? theme.textTheme.bodyMedium?.copyWith(
                   color: AppColors.wightColor, fontWeight: FontWeight.w700),
             ),
-            const Icon(
-              Icons.arrow_forward,
-              color: AppColors.wightColor,
-              size: 30,
-            )
+            icon ??
+                const Icon(
+                  Icons.arrow_forward,
+                  color: AppColors.wightColor,
+                  size: 30,
+                )
           ],
         ));
   }

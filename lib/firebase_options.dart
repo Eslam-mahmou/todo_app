@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'todo-app-c2.firebaseapp.com',
     storageBucket: 'todo-app-c2.appspot.com',
   );
+
 }
