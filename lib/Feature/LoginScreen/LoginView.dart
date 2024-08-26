@@ -21,8 +21,8 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController(text: "Eslam12@route.com");
+  final passwordController = TextEditingController(text: "ASDasd@123");
   bool obscureText = false;
 
   @override
@@ -120,7 +120,7 @@ class _LoginViewState extends State<LoginView> {
                   CustomLoginCard(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        AppFirebase.signIn(emailController.text,
+                        AppFirebase().signIn(emailController.text,
                             passwordController.text, context);
                       }
                     },

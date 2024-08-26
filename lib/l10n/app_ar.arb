@@ -4,6 +4,7 @@
 "add_new_task":"إضافة مهمه جديدة",
 "enter_task_title" :"عنوان المهمة",
 "enter_task_details":"تفاصيل المهمة",
+"select_date":"حدد التاريخ",
 "select_time":"حدد الوقت",
 "save":"حفظ",
 "language":"اللغة",

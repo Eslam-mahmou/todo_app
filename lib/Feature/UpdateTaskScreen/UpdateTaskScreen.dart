@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/Feature/TasksScreen/TasksView.dart';
+import 'package:todo_app/Feature/TasksScreen/Widget/CustomTaskItem.dart';
+import 'package:todo_app/Feature/layoutView.dart';
 import 'package:todo_app/Models/TaskModel.dart';
 
 import '../../Core/Services/Provider/ConfigAppProvider.dart';
@@ -24,27 +27,16 @@ class UpdateTaskScreen extends StatefulWidget {
 
 class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
   var arg;
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  GlobalKey<FormState>formKey = GlobalKey();
-  DateTime selectDate = DateTime.now();
+  GlobalKey<FormState> formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     var provider = Provider.of<ConfigAppProvider>(context);
     var localizations = AppLocalizations.of(context)!;
     var theme = Theme.of(context);
-    arg = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as TaskModel;
+    arg = ModalRoute.of(context)!.settings.arguments as TaskModel;
     return Form(
       key: formKey,
       child: Scaffold(
@@ -61,10 +53,8 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                Container(
+                  color: Colors.red,
                   child: Icon(
                     Icons.arrow_back,
                     color: provider.isDarkMode()
@@ -122,9 +112,11 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                       }
                       return null;
                     },
-                    controller: titleController,
+                    onChanged: (value) {
+                      arg.title = value;
+                    },
+                    initialValue: arg.title,
                     hintText: arg.title,
-
                   ),
                   SizedBox(
                     height: height * 0.02,
@@ -136,7 +128,10 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                       }
                       return null;
                     },
-                    controller: descriptionController,
+                    onChanged: (value) {
+                      arg.description = value;
+                    },
+                    initialValue: arg.description,
                     maxLines: 4,
                     hintText: arg.description,
                   ),
@@ -168,22 +163,21 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * .06),
                     child: CustomButton(
-                      onPressed: ()  {
+                      onPressed: () {
                         if (formKey.currentState!.validate()) {
-
                           TaskModel taskModel = TaskModel(
-                              id:arg.id,
-                              title: titleController.text,
-                              description: descriptionController.text,
+                              id: arg.id,
+                              title: arg.title,
+                              description: arg.description,
                               dateTime: arg.dateTime,
-                          );
+                              time: TimeOfDay.now().toString());
                           EasyLoading.show();
-                          AppFirebase.updateTask(taskModel).then((value){
+                          AppFirebase.updateTask(taskModel).then((value) {
                             EasyLoading.dismiss();
                             Navigator.pop(context);
-                            SnackBarService.showSuccessMessage("Task updated successfully");
-
-                          }).catchError((error){
+                            SnackBarService.showSuccessMessage(
+                                "Task updated successfully");
+                          }).catchError((error) {
                             EasyLoading.dismiss();
                             SnackBarService.showErrorMessage(error.toString());
                           });
@@ -206,6 +200,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
 
   void showPickerTime() async {
     var currentDate = await showDatePicker(
+      initialDate: arg.dateTime,
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),

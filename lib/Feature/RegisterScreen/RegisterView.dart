@@ -7,7 +7,7 @@ import '../../Core/Utils/AppAssets.dart';
 import '../../Core/Utils/AppColors.dart';
 import '../../Core/Widget/CustomTextFormLoginField.dart';
 import '../../Core/Widget/CustomCardLogin.dart';
-
+import '../layoutView.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -27,14 +27,8 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Container(
       decoration: const BoxDecoration(
           color: AppColors.backgroundColor,
@@ -126,9 +120,13 @@ class _RegisterViewState extends State<RegisterView> {
                   CustomLoginCard(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        AppFirebase().signUp(validatorModels.emailController.text,
-                            validatorModels.passwordController.text, context);
-                        Navigator.of(context).pushNamed(LoginView.routeName);
+                        AppFirebase().signUp(
+                            validatorModels.emailController.text,
+                            validatorModels.passwordController.text,
+                            context,
+                            validatorModels.nameController.text);
+
+
                       }
                     },
                     text: "Register",

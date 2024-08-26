@@ -11,14 +11,16 @@ class CustomTextFormTaskField extends StatelessWidget {
       required this.hintText,
       this.maxLines = 1,
       this.validator,
-      this.controller});
-
+      this.initialValue,
+       this.onChanged,
+      this.controller,
+    });
+  void Function(String)? onChanged;
   final String hintText;
   int maxLines;
-
+  String? initialValue;
   String? Function(String?)? validator;
   TextEditingController? controller;
-
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ConfigAppProvider>(context);
@@ -27,12 +29,14 @@ class CustomTextFormTaskField extends StatelessWidget {
       cursorColor: AppColors.blackColor,
       maxLines: maxLines,
       validator: validator,
+      onChanged:onChanged ,
       controller: controller,
       keyboardType: TextInputType.text,
       style: theme.textTheme.bodySmall?.copyWith(
         fontSize: 20,
         fontWeight: FontWeight.w500,
       ),
+      initialValue: initialValue,
       decoration: InputDecoration(
           hintText: hintText,
           hintStyle: theme.textTheme.bodyMedium,

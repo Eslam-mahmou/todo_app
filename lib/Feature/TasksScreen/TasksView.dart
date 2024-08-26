@@ -19,7 +19,6 @@ class _TasksListViewState extends State<TasksListView> {
   final EasyInfiniteDateTimelineController controller =
       EasyInfiniteDateTimelineController();
   DateTime focusDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -54,7 +53,7 @@ class _TasksListViewState extends State<TasksListView> {
               width: width,
               child: EasyInfiniteDateTimeLine(
                 controller: controller,
-                firstDate: DateTime(2024, 7, 28),
+                firstDate: DateTime( 2024,8,20),
                 focusDate: focusDate,
                 lastDate: DateTime(2025, 12, 31),
                 onDateChange: (selectedDate) {

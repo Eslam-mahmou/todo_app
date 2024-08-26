@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/Core/Services/showSnakBar.dart';
 import 'package:todo_app/Core/Utils/AppFirebase.dart';
@@ -23,8 +22,7 @@ class CustomTaskItem extends StatelessWidget {
     var loc = AppLocalizations.of(context)!;
     var theme = Theme.of(context);
     return Container(
-      margin: EdgeInsets.only(
-          right: width * .05, left: width * 0.05, bottom: height * .03),
+      margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
       decoration: BoxDecoration(
           color: provider.isDarkMode()
               ? AppColors.bottomBlackColor
@@ -64,12 +62,14 @@ class CustomTaskItem extends StatelessWidget {
             ),
           ],
         ),
-
-        // The end action pane is the one at the right or the bottom side.
-
         child: Container(
           padding: EdgeInsets.symmetric(
               vertical: height * .022, horizontal: width * .01),
+          decoration: BoxDecoration(
+              color: provider.isDarkMode()
+                  ? AppColors.bottomBlackColor
+                  : AppColors.wightColor,
+              borderRadius: BorderRadius.circular(16)),
           child: ListTile(
             leading: Container(
               width: width * 0.013,
@@ -109,7 +109,7 @@ class CustomTaskItem extends StatelessWidget {
                       width: width * .005,
                     ),
                     Text(
-                      DateFormat("dd-MM").format(taskModel.dateTime),
+                      taskModel.time.toString(),
                       style: theme.textTheme.bodySmall,
                     ),
                   ],

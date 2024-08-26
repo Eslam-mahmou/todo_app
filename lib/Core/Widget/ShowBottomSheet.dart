@@ -23,6 +23,7 @@ class _ShowBottomSheetState extends State<ShowBottomSheet> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  TimeOfDay timeDay = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -83,31 +84,56 @@ class _ShowBottomSheetState extends State<ShowBottomSheet> {
                   return null;
                 },
                 controller: descriptionController,
-
                 maxLines: 4,
                 hintText: _localizations.enter_task_details,
               ),
               SizedBox(
                 height: height * 0.04,
               ),
-              Text(
-                _localizations.select_time,
-                textAlign: TextAlign.start,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: AppColors.blackColor),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _localizations.select_date,
+                    textAlign: TextAlign.start,
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.blackColor),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showPickerDate();
+                    },
+                    child: Text(
+                      DateFormat("dd MMM yyyy").format(selectedDate),
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: height * .03,
               ),
-              InkWell(
-                onTap: () {
-                  showPickerTime();
-                },
-                child: Text(
-                  DateFormat("dd MMM yyyy").format(selectedDate),
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _localizations.select_time,
+                    textAlign: TextAlign.start,
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.blackColor),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showPickerTime();
+                    },
+                    child: Text(
+                      "${timeDay.hour}:${timeDay.minute}",
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: height * .04,
@@ -116,10 +142,10 @@ class _ShowBottomSheetState extends State<ShowBottomSheet> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     TaskModel taskModel = TaskModel(
-                      title: titleController.text,
-                      description: descriptionController.text,
-                      dateTime: selectedDate,
-                    );
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        dateTime: selectedDate,
+                        time: "${timeDay.hour}:${timeDay.minute}");
                     EasyLoading.show();
                     AppFirebase.addTaskToFireStore(taskModel).then((value) {
                       Navigator.pop(context);
@@ -127,7 +153,6 @@ class _ShowBottomSheetState extends State<ShowBottomSheet> {
                       SnackBarService.showSuccessMessage(
                           "Task added successfully");
                       print("Task added successfully");
-                        
                     });
                   }
                 },
@@ -143,7 +168,7 @@ class _ShowBottomSheetState extends State<ShowBottomSheet> {
     );
   }
 
-  void showPickerTime() async {
+  void showPickerDate() async {
     var currentDate = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
@@ -152,6 +177,19 @@ class _ShowBottomSheetState extends State<ShowBottomSheet> {
     if (currentDate != null) {
       setState(() {
         selectedDate = currentDate;
+      });
+    }
+  }
+
+  void showPickerTime() async {
+    var currentTime = await showTimePicker(
+        context: context,
+        initialTime: timeDay,
+        initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (currentTime != null) {
+      setState(() {
+        timeDay = currentTime;
       });
     }
   }
