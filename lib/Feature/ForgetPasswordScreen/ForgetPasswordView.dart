@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:todo_app/Core/Utils/AppFirebase.dart';
 import 'package:todo_app/Core/Widget/CustomTextFormLoginField.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Core/Utils/AppAssets.dart';
 import '../../Core/Utils/AppColors.dart';
 
@@ -24,7 +24,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     var theme = Theme.of(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-
+    var _localization=AppLocalizations.of(context)!;
     return Form(
       key: formKey,
       child: Container(
@@ -39,7 +39,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                "Forget Password",
+                _localization.forget,
                 style: theme.textTheme.titleLarge,
               ),
               centerTitle: true,
@@ -54,7 +54,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 child: Column(
                   children: [
                     Text(
-                      'You can reset your password here.',
+                      _localization.you_can_reset_your_password,
                       style: theme.textTheme.bodyLarge?.copyWith(
                           color: AppColors.blackColor,
                           fontSize: 20,
@@ -70,7 +70,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                       },
                       keyboardType: TextInputType.emailAddress,
                       suffixIcon: const Icon(Icons.mail_outline_outlined),
-                      label: "E-mail",
+                      label: _localization.email,
                     ),
                     SizedBox(height: height * .06),
                     ElevatedButton(
@@ -84,11 +84,10 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                         onPressed: () {
                         if (formKey.currentState!.validate()) {
                           AppFirebase.resetPassword(emailController.text, context);
-                          print("dfa");
                         }
                         },
                         child: Text(
-                          'Reset Password',
+                        _localization.reset_password,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: AppColors.wightColor,
                             fontWeight: FontWeight.w700

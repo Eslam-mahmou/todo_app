@@ -19,10 +19,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-   runApp(
-     ChangeNotifierProvider(create: (context) => ConfigAppProvider(),
-     child:const ToDoApp(),)
-   );
+  runApp(ChangeNotifierProvider(
+    create: (context) => ConfigAppProvider()
+      ..getTheme()
+      ..getLang(),
+    child: const ToDoApp(),
+  ));
 }
 
 class ToDoApp extends StatelessWidget {
@@ -36,21 +38,22 @@ class ToDoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: SplashView.routeName,
       builder: EasyLoading.init(
-        builder:BotToastInit(),
+        builder: BotToastInit(),
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      themeMode: provider.currentThemeMode,
+      themeMode: provider.themeMode,
       darkTheme: AppTheme.darkTheme,
-      locale: Locale(provider.currentLanguage),
+      locale:provider.locale,
+
       theme: AppTheme.lightTheme,
       routes: {
         SplashView.routeName: (context) => const SplashView(),
         LoginView.routeName: (context) => const LoginView(),
         RegisterView.routeName: (context) => const RegisterView(),
         HomeView.routeName: (context) => const HomeView(),
-        ForgetPasswordView.routeName : (context) => const ForgetPasswordView(),
-        UpdateTaskScreen.routeName : (context) => const UpdateTaskScreen()
+        ForgetPasswordView.routeName: (context) => const ForgetPasswordView(),
+        UpdateTaskScreen.routeName: (context) => const UpdateTaskScreen()
       },
     );
   }

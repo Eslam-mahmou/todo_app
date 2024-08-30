@@ -1,4 +1,5 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/Core/Services/Provider/ConfigAppProvider.dart';
@@ -19,6 +20,7 @@ class _TasksListViewState extends State<TasksListView> {
   final EasyInfiniteDateTimelineController controller =
       EasyInfiniteDateTimelineController();
   DateTime focusDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -39,9 +41,11 @@ class _TasksListViewState extends State<TasksListView> {
             width: width,
             height: height * .22,
             color: AppColors.primaryColor,
-            child: Text(
-              localizations.to_do_list,
-              style: theme.textTheme.titleLarge,
+            child: Expanded(
+              child: Text(
+                localizations.to_do_list,
+                style: theme.textTheme.titleLarge,
+              ),
             ),
           ),
           Container(
@@ -53,9 +57,18 @@ class _TasksListViewState extends State<TasksListView> {
               width: width,
               child: EasyInfiniteDateTimeLine(
                 controller: controller,
-                firstDate: DateTime( 2024,8,20),
+                firstDate: DateTime(
+                    AppFirebase()
+                            .credential
+                            ?.user
+                            ?.metadata
+                            .creationTime
+                            ?.day ??
+                        2024,
+                    8,
+                    20),
                 focusDate: focusDate,
-                lastDate: DateTime(2025, 12, 31),
+                lastDate: DateTime.now().add(const Duration(days: 365)),
                 onDateChange: (selectedDate) {
                   setState(() {
                     focusDate = selectedDate;
@@ -123,9 +136,11 @@ class _TasksListViewState extends State<TasksListView> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, UpdateTaskScreen.routeName,
-                      arguments: taskList[index],
-                    );
+                      Navigator.pushNamed(
+                        context,
+                        UpdateTaskScreen.routeName,
+                        arguments: taskList[index],
+                      );
                     },
                     child: CustomTaskItem(
                       taskModel: taskList[index],

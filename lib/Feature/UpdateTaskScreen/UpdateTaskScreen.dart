@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/Core/Services/ExtractDate.dart';
 import 'package:todo_app/Feature/TasksScreen/TasksView.dart';
 import 'package:todo_app/Feature/TasksScreen/Widget/CustomTaskItem.dart';
 import 'package:todo_app/Feature/layoutView.dart';
@@ -28,7 +29,7 @@ class UpdateTaskScreen extends StatefulWidget {
 class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
   var arg;
   GlobalKey<FormState> formKey = GlobalKey();
-
+  TimeOfDay timeDay = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -139,17 +140,17 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                     height: height * 0.05,
                   ),
                   Text(
-                    localizations.select_time,
+                    localizations.select_date,
                     textAlign: TextAlign.start,
                     style: theme.textTheme.bodyMedium
                         ?.copyWith(color: AppColors.blackColor),
                   ),
                   SizedBox(
-                    height: height * .05,
+                    height: height * .02,
                   ),
                   InkWell(
                     onTap: () {
-                      showPickerTime();
+                   showPickerDate();
                     },
                     child: Text(
                       DateFormat("dd MMM yyyy").format(arg.dateTime),
@@ -158,7 +159,29 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: height * .07,
+                    height: height * .01,
+                  ),
+                  Text(
+                    localizations.select_time,
+                    textAlign: TextAlign.start,
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.blackColor),
+                  ),
+                  SizedBox(
+                    height: height * .02,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showPickerTime();
+                    },
+                    child: Text(
+                      "${timeDay.hour}:${timeDay.minute}" ,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * .04,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * .06),
@@ -170,7 +193,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                               title: arg.title,
                               description: arg.description,
                               dateTime: arg.dateTime,
-                              time: TimeOfDay.now().toString());
+                              time: "${timeDay.hour}:${timeDay.minute}");
                           EasyLoading.show();
                           AppFirebase.updateTask(taskModel).then((value) {
                             EasyLoading.dismiss();
@@ -198,16 +221,31 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
     );
   }
 
-  void showPickerTime() async {
+  void showPickerDate() async {
     var currentDate = await showDatePicker(
-      initialDate: arg.dateTime,
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      barrierDismissible: false
     );
     if (currentDate != null) {
       setState(() {
         arg.dateTime = currentDate;
+      });
+    }
+  }
+
+  void showPickerTime() async {
+    var currentTime = await showTimePicker(
+      initialTime: TimeOfDay.now(),
+      context: context,
+      initialEntryMode: TimePickerEntryMode.dial,
+      barrierDismissible: false,
+
+    );
+    if (currentTime != null) {
+      setState(() {
+        timeDay = currentTime;
       });
     }
   }

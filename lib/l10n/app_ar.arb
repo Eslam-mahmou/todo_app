@@ -20,5 +20,20 @@
 "done":"تم!",
 "edit_task":"تعديل المهمة",
 "save_changes":"حفظ التغيرات",
-"logout":"تسجيل الخروج"
+"logout":"تسجيل الخروج",
+"register":"إنشاء حساب",
+"login":"تسجيل الدخول",
+"forget_password":"هل نسيت كلمه السر؟",
+"create_account":"أو إنشاء حساب",
+"email":"البريد",
+"password":"كلمه السر",
+"password_confirmation":"تاكيد كلمه السر",
+"welcome_back":"مرحبا بك!",
+"name":"الاسم",
+"you_can_reset_your_password":"يمكنك إعادة كلمه المرور الخاصة بك هنا",
+"reset_password":"إعاده كلمه السر",
+"forget":"استعادة كلمه السر",
+"ok":"نعم",
+"cancel":"لا",
+"are_you_sure":"هل أنت متأكد من أنك تريد حذف هذه المهمة؟"
 }

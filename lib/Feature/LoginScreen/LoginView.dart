@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/Core/Utils/AppAssets.dart';
 import 'package:todo_app/Core/Utils/AppColors.dart';
 import 'package:todo_app/Core/Utils/AppFirebase.dart';
-import 'package:todo_app/Core/Services/ValidateData.dart';
 import 'package:todo_app/Feature/ForgetPasswordScreen/ForgetPasswordView.dart';
 import 'package:todo_app/Feature/RegisterScreen/RegisterView.dart';
-import 'package:todo_app/Feature/layoutView.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Core/Widget/CustomTextFormLoginField.dart';
 import '../../Core/Widget/CustomCardLogin.dart';
 
@@ -30,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
     var theme = Theme.of(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-
+     var _localization=AppLocalizations.of(context)!;
     return Container(
       decoration: const BoxDecoration(
           color: AppColors.backgroundColor,
@@ -43,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            "Login",
+            _localization.login,
             style: theme.textTheme.titleLarge,
           ),
           centerTitle: true,
@@ -61,7 +59,7 @@ class _LoginViewState extends State<LoginView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Welcome back!",
+                    _localization.welcome_back,
                     style: theme.textTheme.titleLarge
                         ?.copyWith(color: AppColors.blackColor),
                   ),
@@ -77,7 +75,7 @@ class _LoginViewState extends State<LoginView> {
                         return "Please enter your email address.";
                       }
                     },
-                    label: "E-mail",
+                    label: _localization.email,
                   ),
                   SizedBox(
                     height: height * .02,
@@ -99,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                         child: obscureText
                             ? const Icon(Icons.visibility_off)
                             : const Icon(Icons.visibility)),
-                    label: "Password",
+                    label: _localization.password,
                   ),
                   TextButton(
                       style: TextButton.styleFrom(
@@ -110,7 +108,7 @@ class _LoginViewState extends State<LoginView> {
                             context, ForgetPasswordView.routeName);
                       },
                       child: Text(
-                        "Forget Password?",
+                        _localization.forget_password,
                         style: theme.textTheme.bodyLarge
                             ?.copyWith(fontWeight: FontWeight.w600),
                       )),
@@ -124,7 +122,7 @@ class _LoginViewState extends State<LoginView> {
                             passwordController.text, context);
                       }
                     },
-                    text: "Login   ",
+                    text: _localization.login,
                   ),
                   SizedBox(
                     height: height * .01,
@@ -135,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: () {
                         Navigator.pushNamed(context, RegisterView.routeName);
                       },
-                      child: Text("Or Create My Account",
+                      child: Text(_localization.create_account,
                           style: theme.textTheme.labelMedium?.copyWith(
                               fontSize: 18, fontWeight: FontWeight.w600))),
                 ],

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Core/Utils/AppFirebase.dart';
 import 'package:todo_app/Core/Services/ValidateData.dart';
-import 'package:todo_app/Feature/LoginScreen/LoginView.dart';
-
 import '../../Core/Utils/AppAssets.dart';
 import '../../Core/Utils/AppColors.dart';
 import '../../Core/Widget/CustomTextFormLoginField.dart';
 import '../../Core/Widget/CustomCardLogin.dart';
-import '../layoutView.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -29,6 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
     var theme = Theme.of(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    var _localization=AppLocalizations.of(context)!;
     return Container(
       decoration: const BoxDecoration(
           color: AppColors.backgroundColor,
@@ -41,7 +40,7 @@ class _RegisterViewState extends State<RegisterView> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            "Register",
+            _localization.register,
             style: theme.textTheme.titleLarge,
           ),
           centerTitle: true,
@@ -65,7 +64,7 @@ class _RegisterViewState extends State<RegisterView> {
                     controller: validatorModels.nameController,
                     validator: validatorModels.validateName,
                     keyboardType: TextInputType.name,
-                    label: "Name",
+                    label:_localization.name,
                   ),
                   SizedBox(
                     height: height * .02,
@@ -75,7 +74,7 @@ class _RegisterViewState extends State<RegisterView> {
                     validator: validatorModels.validateEmail,
                     keyboardType: TextInputType.emailAddress,
                     suffixIcon: const Icon(Icons.email),
-                    label: "E-mail",
+                    label: _localization.email,
                   ),
                   SizedBox(
                     height: height * .02,
@@ -93,7 +92,7 @@ class _RegisterViewState extends State<RegisterView> {
                         child: obscureText
                             ? const Icon(Icons.visibility_off)
                             : const Icon(Icons.visibility)),
-                    label: "Password",
+                    label: _localization.password,
                   ),
                   SizedBox(
                     height: height * .02,
@@ -112,7 +111,7 @@ class _RegisterViewState extends State<RegisterView> {
                         child: obscureConfirm
                             ? const Icon(Icons.visibility_off)
                             : const Icon(Icons.visibility)),
-                    label: "Confirm Password",
+                    label: _localization.password_confirmation,
                   ),
                   SizedBox(
                     height: height * .07,
@@ -129,7 +128,7 @@ class _RegisterViewState extends State<RegisterView> {
 
                       }
                     },
-                    text: "Register",
+                    text: _localization.register,
                   ),
                 ],
               ),
