@@ -40,7 +40,7 @@ String userId;
         description: data["description"],
         dateTime: DateTime.fromMillisecondsSinceEpoch(data["dateTime"]),
         isDone: data["isDone"] ?? false,
-        time: data["time"] ??"",
+        time: data["time"] ,
     userId: data["userId"] ?? "",);
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todo_app/Core/Utils/AppFirebase.dart';
-import 'package:todo_app/Core/Widget/CustomButton.dart';
 import 'package:todo_app/Core/Widget/CustomCardLogin.dart';
 import 'package:todo_app/Feature/LoginScreen/LoginView.dart';
 import '../../../Core/Services/Provider/ConfigAppProvider.dart';
@@ -75,14 +74,14 @@ class SettingViewBody extends StatelessWidget {
               ),
             ),
             items: _languages,
-            initialItem: provider.currentLanguage == "en"
+            initialItem: provider.locale == Locale("en")
                 ? _languages[0]
                 : _languages[1],
             onChanged: (value) {
               if (value == _languages[0]) {
                 provider.changeLanguage("en");
               }
-              if (value == _languages[1]) {
+               else {
                 provider.changeLanguage("ar");
               }
             }),
@@ -129,7 +128,7 @@ class SettingViewBody extends StatelessWidget {
               ),
             ),
             items: _modes,
-            initialItem: provider.currentThemeMode == ThemeMode.light
+            initialItem: provider.themeMode == ThemeMode.light
                 ? _modes[0]
                 : _modes[1],
             onChanged: (value) {
